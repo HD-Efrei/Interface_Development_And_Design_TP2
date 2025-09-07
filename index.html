@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>TP2 : </title>
+    <title>TP2 : Ex 1-2</title>
     <link rel="stylesheet" href="styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
@@ -12,6 +12,26 @@
 <body>
 
     <a class="btn" href="index_2.html">Lancer l’AR</a>
+
+    <nav class="overlay">
+        <a class="btn" href="index.html">Accueil</a>
+        <a class="btn" href="index_2.html">AR Hiro</a>
+        <a class="btn" href="index_3.html">Marker perso</a>
+        <a class="btn" href="QR_Code.html">QR Code</a>
+        <a class="btn" href="index_4.html">UI DOM</a>
+    </nav>
+
+    <script>
+        (function() {
+            const here = location.pathname.split('/').pop().toLowerCase();
+            document.querySelectorAll('nav.overlay a').forEach(a => {
+                const href = a.getAttribute('href').split('/').pop().toLowerCase();
+                if (href === here) a.setAttribute('aria-current', 'page');
+            });
+        })();
+    </script>
+
+
 
     <a-scene>
         <a-box position="0 3 -3" rotation="0 0 0" depth="1" color="blue"></a-box>

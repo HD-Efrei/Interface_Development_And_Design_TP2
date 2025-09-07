@@ -5,12 +5,57 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
 
-    <title>AR – Marker personnalisé</title>
+    <title>TP2 : Ex 4</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.min.js"></script>
+    <script>
+        AFRAME.registerComponent('make-gray', {
+            schema: {
+                color: {
+                    default: '#808080'
+                }
+            },
+            init() {
+                this.el.addEventListener('model-loaded', () => {
+                    this.el.object3D.traverse((n) => {
+                        if (n.isMesh && n.material) {
+                            if (n.material.map) n.material.map = null;
+                            n.material.color.set(this.data.color);
+                            n.material.metalness = 0;
+                            n.material.roughness = 1;
+                            n.material.needsUpdate = true;
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+
 </head>
 
 <body>
+
+    <nav class="overlay">
+        <a class="btn" href="index.html">Accueil</a>
+        <a class="btn" href="index_2.html">AR Hiro</a>
+        <a class="btn" href="index_3.html">Marker perso</a>
+        <a class="btn" href="QR_Code.html">QR Code</a>
+        <a class="btn" href="index_4.html">UI DOM</a>
+    </nav>
+
+    <script>
+        (function() {
+            const here = location.pathname.split('/').pop().toLowerCase();
+            document.querySelectorAll('nav.overlay a').forEach(a => {
+                const href = a.getAttribute('href').split('/').pop().toLowerCase();
+                if (href === here) a.setAttribute('aria-current', 'page');
+            });
+        })();
+    </script>
+
+
+
     <a-scene embedded renderer="alpha:true; antialias:true" arjs="sourceType: webcam; debugUIEnabled:false">
 
         <a-assets>
@@ -23,7 +68,9 @@
 
         <a-marker id="mk" type="pattern" url="./pattern-Pierre.patt" emitevents="true">
             <a-entity id="obj" visible="false" position="0 0 0">
-                <a-gltf-model src="#rockModel" rotation="0 180 0" scale="0.2 0.2 0.2" animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear"></a-gltf-model>
+                <a-gltf-model src="#rockModel" rotation="0 180 0" scale="0.2 0.2 0.2" make-gray="color: #8a8a8a" animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear">
+                </a-gltf-model>
+
 
             </a-entity>
         </a-marker>

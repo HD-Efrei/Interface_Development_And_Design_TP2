@@ -16,11 +16,10 @@ nav.overlay {
     z-index: 9999;
     display: flex;
     gap: 8px;
+    flex-wrap: wrap;
 }
 
 .btn {
-    top: 16px;
-    right: 16px;
     padding: 10px 14px;
     border-radius: 10px;
     background: #111;
@@ -28,9 +27,26 @@ nav.overlay {
     text-decoration: none;
     font-family: system-ui, sans-serif;
     font-size: 16px;
-    z-index: 1000;
+    border: 1px solid #0002;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
 }
 
 .btn:hover {
     opacity: .9;
+}
+
+.btn[aria-current="page"] {
+    background: #2d6cdf;
+}
+
+.btn.active,
+.btn[aria-current="page"] {
+    background: #2d6cdf;
+}
+
+@media (max-width: 480px) {
+    .btn {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
 }

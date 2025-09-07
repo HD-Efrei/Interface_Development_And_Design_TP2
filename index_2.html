@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
 
-    <title>TP2 : </title>
+    <title>TP2 : Ex 3</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.min.js"></script>
@@ -59,9 +59,24 @@
 <body>
 
     <nav class="overlay">
-        <a class="btn" href="QR-Code.html">Lancer le QR</a>
+        <a class="btn" href="index.html">Accueil</a>
+        <a class="btn" href="index_2.html">AR Hiro</a>
         <a class="btn" href="index_3.html">Marker perso</a>
+        <a class="btn" href="QR_Code.html">QR Code</a>
+        <a class="btn" href="index_4.html">UI DOM</a>
     </nav>
+
+    <script>
+        (function() {
+            const here = location.pathname.split('/').pop().toLowerCase();
+            document.querySelectorAll('nav.overlay a').forEach(a => {
+                const href = a.getAttribute('href').split('/').pop().toLowerCase();
+                if (href === here) a.setAttribute('aria-current', 'page');
+            });
+        })();
+    </script>
+
+
 
 
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">

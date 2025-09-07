@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>QR + Hiro</title>
+    <title>TP2 : Ex 5</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         body {
@@ -36,18 +37,29 @@
             height: auto;
             box-shadow: 0 0 0 6px #fff
         }
-        
-        .btn {
-            padding: 10px 14px;
-            border-radius: 10px;
-            background: #111;
-            color: #fff;
-            text-decoration: none
-        }
     </style>
 </head>
 
 <body>
+
+    <nav class="overlay">
+        <a class="btn" href="index.html">Accueil</a>
+        <a class="btn" href="index_2.html">AR Hiro</a>
+        <a class="btn" href="index_3.html">Marker perso</a>
+        <a class="btn" href="QR_Code.html">QR Code</a>
+        <a class="btn" href="index_4.html">UI DOM</a>
+    </nav>
+
+    <script>
+        (function() {
+            const here = location.pathname.split('/').pop().toLowerCase();
+            document.querySelectorAll('nav.overlay a').forEach(a => {
+                const href = a.getAttribute('href').split('/').pop().toLowerCase();
+                if (href === here) a.setAttribute('aria-current', 'page');
+            });
+        })();
+    </script>
+
 
     <div id="wrap">
         <div id="qrcode"></div>
