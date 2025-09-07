@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>TP2 : </title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
@@ -56,9 +57,13 @@
 
 <body>
 
-    <a class="btn" href="index_3.html">Lancer le QR</a>
+    <nav class="overlay">
+        <a class="btn" href="QR-Code.html">Lancer le QR</a>
+        <a class="btn" href="index_3.html">Marker perso</a>
+    </nav>
 
-    <a-scene arjs="sourceType: webcam; debugUIEnabled: false;">
+
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
         <a-marker preset="hiro">
             <a-box class="clickable" material="color: blue; opacity: 0.5; transparent: true" position="0 1 0 " spin="speed: 180 " speed-on-click=" normal:2000; fast:400 " color-random-hex-on-click></a-box>
         </a-marker>

@@ -1,5 +1,17 @@
-.btn {
+body {
+    margin: 0;
+}
+
+nav.overlay {
     position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 9999;
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
     top: 16px;
     right: 16px;
     padding: 10px 14px;
@@ -8,6 +20,7 @@
     color: #fff;
     text-decoration: none;
     font-family: system-ui, sans-serif;
+    font-size: 16px;
     z-index: 1000;
 }
 
