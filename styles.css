@@ -1,5 +1,12 @@
+html,
 body {
+    height: 100%;
     margin: 0;
+}
+
+a-scene {
+    position: fixed;
+    inset: 0;
 }
 
 nav.overlay {
