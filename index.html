@@ -1,18 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
+    <meta charset="utf-8" />
+    <title>TP2 : </title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
 </head>
 
 <body>
+
+    <a class="btn" href="index_2.html">Lancer l’AR</a>
+
     <a-scene arjs="sourceType: webcam; debugUIEnabled: false;">
         <a-box position="0 3 -3" rotation="0 0 0" depth="1" color="blue"></a-box>
-        <a-box position="1 2 -3 " rotation="0 45 0 " color="red"></a-box>
-        <a-box position="-1 2 -3 " rotation="0 45 0 " color="#ffffff"></a-box>
-        <a-plane position="0 0 -4 " rotation="-90 0 0 " width="50" height="50" color="#7BC8A4"></a-plane>
+        <a-box position="1 2 -3" rotation="0 45 0" color="red"></a-box>
+        <a-box position="-1 2 -3" rotation="0 45 0" color="#ffffff"></a-box>
+        <a-plane position="0 0 -4" rotation="-90 0 0" width="50" height="50" color="#7BC8A4"></a-plane>
         <a-entity camera look-controls position="0 10 15"></a-entity>
-        <a-sky color="#ECECEC "></a-sky>
+        <a-sky color="#ECECEC"></a-sky>
     </a-scene>
 </body>
 

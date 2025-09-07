@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="utf-8">
+    <title>TP2 : </title>
+    <link rel="stylesheet" href="styles.css">
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.min.js"></script>
 
@@ -12,9 +14,9 @@
                 speed: {
                     default: 180
                 }
-            }, // degrés/s
+            },
             tick: function(time, dt) {
-                if (!this.el.object3D.visible) return; // évite quand le marqueur est perdu
+                if (!this.el.object3D.visible) return;
                 const rot = this.el.getAttribute('rotation');
                 rot.y = (rot.y + this.data.speed * (dt / 1000)) % 360;
                 this.el.setAttribute('rotation', rot);
@@ -29,13 +31,13 @@
                 fast: {
                     default: 400
                 }
-            }, // ms par tour
+            },
             init() {
-                this.isFast = false; // départ lent
+                this.isFast = false;
                 this.el.addEventListener('click', () => {
                     this.isFast = !this.isFast;
                     const durMs = this.isFast ? this.data.fast : this.data.normal;
-                    const degPerSec = 360000 / durMs; // 360° / (dur ms)
+                    const degPerSec = 360000 / durMs;
                     this.el.setAttribute('spin', 'speed', degPerSec);
                 });
             }
@@ -53,6 +55,9 @@
 </head>
 
 <body>
+
+    <a class="btn" href="index_3.html">Lancer le QR</a>
+
     <a-scene arjs="sourceType: webcam; debugUIEnabled: false;">
         <a-marker preset="hiro">
             <a-box class="clickable" material="color: blue; opacity: 0.5; transparent: true" position="0 1 0 " spin="speed: 180 " speed-on-click=" normal:2000; fast:400 " color-random-hex-on-click></a-box>

@@ -1,0 +1,16 @@
+.btn {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #111;
+    color: #fff;
+    text-decoration: none;
+    font-family: system-ui, sans-serif;
+    z-index: 1000;
+}
+
+.btn:hover {
+    opacity: .9;
+}

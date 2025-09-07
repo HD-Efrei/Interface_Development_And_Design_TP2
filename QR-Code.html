@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QR + Hiro</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            display: grid;
+            place-items: center;
+            gap: 12px;
+            padding: 16px
+        }
+        
+        #wrap {
+            position: relative;
+            width: 512px;
+            height: 512px
+        }
+        
+        #qrcode>canvas,
+        #qrcode>img {
+            width: 512px;
+            height: 512px
+        }
+        
+        #logo {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 33%;
+            height: auto;
+            box-shadow: 0 0 0 6px #fff
+        }
+        
+        .btn {
+            padding: 10px 14px;
+            border-radius: 10px;
+            background: #111;
+            color: #fff;
+            text-decoration: none
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="wrap">
+        <div id="qrcode"></div>
+        <img id="logo" src="HIRO.jpg" alt="HIRO">
+    </div>
+
+    <a id="downloadBtn" class="btn" href="#">Télécharger en PNG</a>
+
+    <script>
+        const targetURL = "https://hd-efrei.github.io/Interface_Development_And_Design_TP2/index_2.html";
+
+        new QRCode(document.getElementById("qrcode"), {
+            text: targetURL,
+            width: 512,
+            height: 512,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', async(e) => {
+            e.preventDefault();
+            const qrNode = document.querySelector('#qrcode canvas, #qrcode img');
+            if (qrNode.tagName === 'IMG' && qrNode.decode) {
+                try {
+                    await qrNode.decode();
+                } catch (_) {}
+            }
+
+            const w = 512,
+                h = 512,
+                c = document.createElement('canvas');
+            c.width = w;
+            c.height = h;
+            const ctx = c.getContext('2d');
+            ctx.drawImage(qrNode, 0, 0, w, h);
+
+            const logoSrc = document.getElementById('logo').src;
+            const img = new Image();
+            img.src = logoSrc;
+            img.onload = () => {
+                const lw = Math.round(w * 0.33),
+                    lh = Math.round(img.height * (lw / img.width));
+                const lx = Math.round((w - lw) / 2),
+                    ly = Math.round((h - lh) / 2);
+                ctx.fillStyle = "#fff";
+                ctx.fillRect(lx - 12, ly - 12, lw + 24, lh + 24);
+                ctx.drawImage(img, lx, ly, lw, lh);
+                const a = document.getElementById('downloadBtn');
+                a.download = "qr_hiro.png";
+                a.href = c.toDataURL("image/png");
+                a.click();
+            };
+        });
+    </script>
+</body>
+
+</html>
