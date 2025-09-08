@@ -64,6 +64,7 @@
         <a class="btn" href="index_3.html">Marker perso</a>
         <a class="btn" href="QR_Code.html">QR Code</a>
         <a class="btn" href="index_4.html">UI DOM</a>
+        <a class="btn" href="bonus.html">Jeu Bonus</a>
     </nav>
 
     <script>
@@ -81,10 +82,14 @@
 
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
         <a-marker preset="hiro">
-            <a-box class="clickable" material="color: blue; opacity: 0.5; transparent: true" position="0 1 0 " spin="speed: 180 " speed-on-click=" normal:2000; fast:400 " color-random-hex-on-click></a-box>
+            <a-box class="clickable" material="color: blue; opacity: 0.5; transparent: true" position="0 1 0" spin="speed: 180" speed-on-click="normal:2000; fast:400" color-random-hex-on-click></a-box>
         </a-marker>
-        <a-entity camera cursor="rayOrigin: mouse " raycaster="objects: .clickable ">
-        </a-entity>
+
+        <!-- Curseur souris/touch dédié -->
+        <a-entity cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .clickable; interval: 0; far: 50"></a-entity>
+
+        <!-- Caméra AR.js (ne rien mettre d’autre dessus) -->
+        <a-entity camera></a-entity>
     </a-scene>
 </body>
 

@@ -17,6 +17,11 @@ nav.overlay {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
+    pointer-events: none;
+}
+
+nav.overlay .btn {
+    pointer-events: auto;
 }
 
 .btn {
@@ -49,4 +54,76 @@ nav.overlay {
         font-size: 14px;
         padding: 8px 12px;
     }
+}
+
+
+/*bonus.html*/
+
+#hud {
+    position: fixed;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, .75);
+    color: #fff;
+    padding: 12px 14px;
+    border-radius: 12px;
+    z-index: 10001;
+    backdrop-filter: blur(3px);
+    min-width: 260px;
+    text-align: center;
+    font-family: system-ui, sans-serif;
+}
+
+#hud .row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 18px;
+}
+
+#hud .label {
+    opacity: .8;
+    min-width: 64px;
+    text-align: right;
+}
+
+#youIcon,
+#cpuIcon {
+    font-size: 28px;
+    min-width: 32px;
+}
+
+#result {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.win {
+    color: #4caf50;
+}
+
+.lose {
+    color: #e53935;
+}
+
+.draw {
+    color: #ffb300;
+}
+
+#hint .ico {
+    width: 20px;
+    height: 20px;
+    vertical-align: -3px;
+}
+
+#youIcon img,
+#cpuIcon img {
+    width: 32px;
+    height: 32px;
+    display: block;
 }

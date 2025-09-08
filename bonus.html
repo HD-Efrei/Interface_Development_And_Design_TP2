@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <title>TP2 : Jeu Bonus</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.min.js"></script>
+
+    <link rel="preload" as="image" href="icons/rock.svg?v=1">
+
+</head>
+
+<body>
+
+    <nav class="overlay">
+        <a class="btn" href="index.html">Accueil</a>
+        <a class="btn" href="index_2.html">AR Hiro</a>
+        <a class="btn" href="index_3.html">Marker perso</a>
+        <a class="btn" href="QR_Code.html">QR Code</a>
+        <a class="btn" href="index_4.html">UI DOM</a>
+        <a class="btn" href="bonus.html">Jeu Bonus</a>
+    </nav>
+
+    <script>
+        (function() {
+            const here = location.pathname.split('/').pop().toLowerCase();
+            document.querySelectorAll('nav.overlay a').forEach(a => {
+                const href = a.getAttribute('href').split('/').pop().toLowerCase();
+                if (href === here) a.setAttribute('aria-current', 'page');
+            });
+        })();
+    </script>
+
+
+    <a-scene embedded renderer="alpha:true; antialias:true" arjs="sourceType: webcam; facingMode: environment; debugUIEnabled:false">
+
+        <a-marker id="mk-pierre" type="pattern" url="pattern-Pierre.patt" emitevents="true"></a-marker>
+        <a-marker id="mk-feuille" type="pattern" url="pattern-Feuille.patt" emitevents="true"></a-marker>
+        <a-marker id="mk-ciseaux" type="pattern" url="pattern-Ciseaux.patt" emitevents="true"></a-marker>
+
+        <a-entity camera></a-entity>
+    </a-scene>
+
+    <div id="hud">
+        <div class="row"><span class="label">Vous :</span> <span id="youIcon">—</span></div>
+        <div class="row"><span class="label">Ordi :</span> <span id="cpuIcon">—</span></div>
+        <div id="result">Montre un des 3 markers pour jouer</div>
+        <div id="hint">
+            <img class="ico" src="icons/rock.svg?v=2" alt="Pierre" onerror="this.outerHTML='🪨'"> = Pierre · ✂️ = Ciseaux · 📄 = Feuille
+        </div>
+
+    </div>
+
+    <script>
+        const MAP_EMOJI = {
+            pierre: '🪨',
+            ciseaux: '✂️',
+            feuille: '📄'
+        };
+        const MAP_IMG = {
+            pierre: 'icons/rock.svg'
+        };
+        const ORDER = ['pierre', 'ciseaux', 'feuille'];
+        const WIN = {
+            pierre: 'ciseaux',
+            ciseaux: 'feuille',
+            feuille: 'pierre'
+        };
+        const byMarkerId = {
+            'mk-pierre': 'pierre',
+            'mk-feuille': 'feuille',
+            'mk-ciseaux': 'ciseaux'
+        };
+
+        const youIcon = document.getElementById('youIcon');
+        const cpuIcon = document.getElementById('cpuIcon');
+        const result = document.getElementById('result');
+
+        let visible = new Set();
+        let busy = false;
+        let lastPlayer = null;
+        let spinner = null;
+
+        function setIcon(el, key) {
+            const src = MAP_IMG[key];
+            if (src) {
+                el.innerHTML = `<img src="${src}" alt="${key}">`;
+            } else {
+                const v = MAP_EMOJI[key];
+                el.textContent = (v !== undefined && v !== null) ? v : '—';
+            }
+        }
+
+
+        ['mk-pierre', 'mk-feuille', 'mk-ciseaux'].forEach(id => {
+            const mk = document.getElementById(id);
+            mk.addEventListener('markerFound', () => onFound(id));
+            mk.addEventListener('markerLost', () => onLost(id));
+        });
+
+        function onFound(id) {
+            visible.add(id);
+            const player = byMarkerId[id];
+            if (!busy || player !== lastPlayer) {
+                startRound(player);
+            }
+        }
+
+        function onLost(id) {
+            visible.delete(id);
+            if (visible.size === 0) {
+                stopSpin();
+                busy = false;
+                lastPlayer = null;
+                youIcon.textContent = '—';
+                cpuIcon.textContent = '—';
+                result.textContent = 'Montre un des 3 markers pour jouer';
+                result.className = '';
+            }
+        }
+
+        function startRound(player) {
+            lastPlayer = player;
+            setIcon(youIcon, player);
+            result.textContent = '...';
+            result.className = '';
+            spinCPU(1000 + Math.random() * 800, () => {
+                const cpu = randomCPU();
+                setIcon(cpuIcon, cpu);
+                const verdict = decide(player, cpu);
+                showVerdict(verdict);
+            });
+        }
+
+        function randomCPU() {
+            const arr = Object.keys(MAP_EMOJI);
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function decide(p, c) {
+            if (p === c) return 'draw';
+            return (WIN[p] === c) ? 'win' : 'lose';
+        }
+
+        function showVerdict(v) {
+            if (v === 'win') {
+                result.textContent = '✅ WIN';
+                result.className = 'win';
+            } else if (v === 'lose') {
+                result.textContent = '❌ LOSE';
+                result.className = 'lose';
+            } else {
+                result.textContent = '➖ DRAW';
+                result.className = 'draw';
+            }
+            busy = false;
+        }
+
+        function spinCPU(durationMs, onDone) {
+            busy = true;
+            stopSpin();
+            let i = 0;
+            setIcon(cpuIcon, ORDER[i % 3]);
+            spinner = setInterval(() => {
+                i++;
+                setIcon(cpuIcon, ORDER[i % 3]);
+            }, 90);
+            setTimeout(() => {
+                stopSpin();
+                onDone && onDone();
+            }, durationMs);
+        }
+
+        function stopSpin() {
+            if (spinner) {
+                clearInterval(spinner);
+                spinner = null;
+            }
+        }
+    </script>
+
+</body>
+
+</html>
